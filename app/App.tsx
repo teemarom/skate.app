@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Homepage from './Homepage';
 import { Tricks } from './Tricks';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { FontAwesome } from '@expo/vector-icons';
 
 
 const Tab = createBottomTabNavigator();
@@ -24,7 +25,7 @@ export default function App() {
           }}/>
           <Tab.Screen name="Map" component={Map} options={{
             tabBarLabel: "Map",
-            tabBarIcon: ({size, color}) => <MaterialIcons name="map" size={28} color="black" />
+            tabBarIcon: ({size, color}) => <FontAwesome name="map" size={24} color="black" />
           }}/>
         </Tab.Navigator>
         <StatusBar style="auto" />
