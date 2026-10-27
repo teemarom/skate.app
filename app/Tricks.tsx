@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Keyboard, KeyboardAvoidingView, Pressable, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from "react-native";
+import { FlatList, Keyboard, Pressable, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from "react-native";
+import { TrickItem } from "../components/TrickItem";
 
 type Trick = {
     id: string,
@@ -14,7 +15,16 @@ export function Tricks() {
     const [tricks, setTricks] = useState<Trick[]>([]); // lista tempuille
 
     function addTrick() {
-        //TODO: lisää funktio
+        if (!trickName.trim()) return; // estää lisäyksen jos tyhjä nimi
+
+        const newTrick: Trick = {
+            id: Date.now().toString(), // väliaikainen id testaukseen
+            trickName,
+            description,
+        }
+        setTricks([...tricks, newTrick]); // lisää tempun listaan
+        setTrickName("");   
+        setDescription("")
     }
 
     return (
@@ -25,28 +35,36 @@ export function Tricks() {
                     <Text style={styles.logo}>SKATETRICKS</Text>
                 </View>
 
-                <View> {/*User input to add trick*/}
-                    <Text>Add a trick:</Text>
+                {/*User input to add trick*/}
+                <View> 
+                    <Text style={{fontSize: 20}}>Add a trick:</Text>
                     <TextInput style={styles.inputTrick}
                         placeholder="Trick"
                         value={trickName}
                         onChangeText={setTrickName}
                     />
 
-                    <Text>Add description:</Text>
+                    <Text style={{fontSize: 20}}>Add description:</Text>
                     <TextInput style={styles.inputDescription}
                         placeholder="Description"
                         value={description}
                         onChangeText={setDescription}
                         multiline
                     />
-                    <Pressable style={styles.addButton}>
+                    <Pressable style={styles.addButton} onPress={addTrick}>
                         <Text style={styles.addButtonText}>ADD TRICK</Text>
                     </Pressable>
                 </View>
 
                 {/* TODO: Lisää flatlist tähän*/}
-
+                <FlatList
+                    data={tricks}
+                    keyExtractor={(item) => item.id}
+                    ListEmptyComponent={<Text>No added tricks yet</Text>}
+                    renderItem={({item}) => (
+                        <TrickItem trick={item} />
+                    )}
+                />
             </View>
 
         </TouchableWithoutFeedback>
