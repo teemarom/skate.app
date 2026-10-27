@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { FlatList, Keyboard, Pressable, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from "react-native";
+import { SectionList, Keyboard, Pressable, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from "react-native";
 import { TrickItem } from "../components/TrickItem";
+import { Trick } from "../types/Trick";
 
-type Trick = {
-    id: string,
-    trickName: string,
-    description: string
+
+type Props = {
+    onToggle: (id: string) => void;
 }
 
 export function Tricks() {
@@ -14,6 +14,12 @@ export function Tricks() {
     const [description, setDescription] = useState(""); // tempun kuvaus
     const [tricks, setTricks] = useState<Trick[]>([]); // lista tempuille
 
+    const sections = [
+        { title: "In progress", data: tricks.filter((t) => t.status === "In Progress") },
+        { title: "Landed", data: tricks.filter((t) => t.status === "Landed") },
+    ];
+
+
     function addTrick() {
         if (!trickName.trim()) return; // estää lisäyksen jos tyhjä nimi
 
@@ -21,14 +27,25 @@ export function Tricks() {
             id: Date.now().toString(), // väliaikainen id testaukseen
             trickName,
             description,
+            status: "In Progress"
         }
         setTricks([...tricks, newTrick]); // lisää tempun listaan
-        setTrickName("");   
+        setTrickName("");
         setDescription("")
     }
 
+    function toggleTrick(id: string) {
+        setTricks((prev) =>
+            prev.map((t) =>
+                t.id === id
+                    ? { ...t, status: t.status === "In Progress" ? "Landed" : "In Progress" }
+                    : t
+            )
+        );
+    }
+
     return (
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        //<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.container}>
 
                 <View style={styles.header}>
@@ -36,15 +53,15 @@ export function Tricks() {
                 </View>
 
                 {/*User input to add trick*/}
-                <View> 
-                    <Text style={{fontSize: 20}}>Add a trick:</Text>
+                <View>
+                    <Text style={{ fontSize: 20 }}>Add a trick:</Text>
                     <TextInput style={styles.inputTrick}
                         placeholder="Trick"
                         value={trickName}
                         onChangeText={setTrickName}
                     />
 
-                    <Text style={{fontSize: 20}}>Add description:</Text>
+                    <Text style={{ fontSize: 20 }}>Add description:</Text>
                     <TextInput style={styles.inputDescription}
                         placeholder="Description"
                         value={description}
@@ -57,17 +74,25 @@ export function Tricks() {
                 </View>
 
                 {/* TODO: Lisää flatlist tähän*/}
-                <FlatList
-                    data={tricks}
+                <SectionList
+                    style={styles.list}
+                    contentContainerStyle={styles.listContent}
+                    sections={sections}
                     keyExtractor={(item) => item.id}
-                    ListEmptyComponent={<Text>No added tricks yet</Text>}
-                    renderItem={({item}) => (
-                        <TrickItem trick={item} />
+                    keyboardShouldPersistTaps="handled"
+                    keyboardDismissMode="on-drag"
+                    ListEmptyComponent={<Text style={{ fontSize: 18, paddingTop: 10 }}>No added tricks yet</Text>}
+                    renderSectionHeader={({ section }) => (
+                        <Text style={styles.sectionHeader}>{section.title}</Text>
+                    )}
+                    renderItem={({ item }) => (
+                        <TrickItem trick={item} onToggle={toggleTrick} />
                     )}
                 />
+
             </View>
 
-        </TouchableWithoutFeedback>
+        //</TouchableWithoutFeedback>
     )
 }
 
@@ -94,7 +119,7 @@ const styles = StyleSheet.create({
         borderColor: "gray",
         width: 280,
         height: 30,
-        marginBottom:10,
+        marginBottom: 10,
     },
     inputDescription: {
         borderWidth: 1,
@@ -102,7 +127,7 @@ const styles = StyleSheet.create({
         borderColor: "gray",
         width: 280,
         height: 60,
-        marginBottom:10,
+        marginBottom: 10,
     },
     addButton: {
         alignItems: "center",
@@ -117,5 +142,21 @@ const styles = StyleSheet.create({
         color: "white",
         fontSize: 24,
         textAlign: "center"
-    }
+    },
+    sectionHeader: {
+        fontSize: 20,
+        fontWeight: "bold",
+        paddingVertical: 8,
+        backgroundColor: "white",
+        textDecorationLine: "underline"
+    },
+    list: {
+        flex: 1,
+        alignSelf: "stretch",
+        marginTop: 16,
+    },
+    listContent: {
+        paddingHorizontal: 16,
+        paddingBottom: 24,
+    },
 });
