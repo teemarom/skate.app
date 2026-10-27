@@ -1,23 +1,21 @@
 import { useState } from "react";
-import { SectionList, Keyboard, Pressable, StyleSheet, Text, TextInput, TouchableWithoutFeedback, View } from "react-native";
+import { Pressable, StyleSheet, Text, TextInput, View, FlatList } from "react-native";
 import { TrickItem } from "../components/TrickItem";
 import { Trick } from "../types/Trick";
 
+type Status = Trick["status"];
 
-type Props = {
-    onToggle: (id: string) => void;
-}
 
 export function Tricks() {
 
     const [trickName, setTrickName] = useState(""); // tempun nimi
     const [description, setDescription] = useState(""); // tempun kuvaus
     const [tricks, setTricks] = useState<Trick[]>([]); // lista tempuille
+    const [activeTab, setActiveTab] = useState<Status>("In Progress");
 
-    const sections = [
-        { title: "In progress", data: tricks.filter((t) => t.status === "In Progress") },
-        { title: "Landed", data: tricks.filter((t) => t.status === "Landed") },
-    ];
+    const tabs: Status[] = ["In Progress", "Landed"];
+
+    const visibleTricks = tricks.filter((t) => t.status === activeTab);
 
 
     function addTrick() {
@@ -45,54 +43,70 @@ export function Tricks() {
     }
 
     return (
-        //<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={styles.container}>
+        <View style={styles.container}>
 
-                <View style={styles.header}>
-                    <Text style={styles.logo}>SKATETRICKS</Text>
-                </View>
-
-                {/*User input to add trick*/}
-                <View>
-                    <Text style={{ fontSize: 20 }}>Add a trick:</Text>
-                    <TextInput style={styles.inputTrick}
-                        placeholder="Trick"
-                        value={trickName}
-                        onChangeText={setTrickName}
-                    />
-
-                    <Text style={{ fontSize: 20 }}>Add description:</Text>
-                    <TextInput style={styles.inputDescription}
-                        placeholder="Description"
-                        value={description}
-                        onChangeText={setDescription}
-                        multiline
-                    />
-                    <Pressable style={styles.addButton} onPress={addTrick}>
-                        <Text style={styles.addButtonText}>ADD TRICK</Text>
-                    </Pressable>
-                </View>
-
-                {/* TODO: Lisää flatlist tähän*/}
-                <SectionList
-                    style={styles.list}
-                    contentContainerStyle={styles.listContent}
-                    sections={sections}
-                    keyExtractor={(item) => item.id}
-                    keyboardShouldPersistTaps="handled"
-                    keyboardDismissMode="on-drag"
-                    ListEmptyComponent={<Text style={{ fontSize: 18, paddingTop: 10 }}>No added tricks yet</Text>}
-                    renderSectionHeader={({ section }) => (
-                        <Text style={styles.sectionHeader}>{section.title}</Text>
-                    )}
-                    renderItem={({ item }) => (
-                        <TrickItem trick={item} onToggle={toggleTrick} />
-                    )}
-                />
-
+            <View style={styles.header}>
+                <Text style={styles.logo}>SKATETRICKS</Text>
             </View>
 
-        //</TouchableWithoutFeedback>
+            {/*User input to add trick*/}
+            <View>
+                <Text style={{ fontSize: 20 }}>Add a trick:</Text>
+                <TextInput style={styles.inputTrick}
+                    placeholder="Trick"
+                    value={trickName}
+                    onChangeText={setTrickName}
+                />
+
+                <Text style={{ fontSize: 20 }}>Add description:</Text>
+                <TextInput style={styles.inputDescription}
+                    placeholder="Description"
+                    value={description}
+                    onChangeText={setDescription}
+                    multiline
+                />
+                <Pressable style={styles.addButton} onPress={addTrick}>
+                    <Text style={styles.addButtonText}>ADD TRICK</Text>
+                </Pressable>
+            </View>
+
+
+            <View style={styles.tabs}>
+                {tabs.map((tab) => {
+                    const count = tricks.filter((t) => t.status === tab).length;
+                    const active = tab === activeTab;
+                    return (
+                        <Pressable
+                            key={tab}
+                            style={[styles.tab, active && styles.tabActive]}
+                            onPress={() => setActiveTab(tab)}
+                        >
+                            <Text style={[styles.tabText, active && styles.tabTextActive]}>
+                                {tab} ({count})
+                            </Text>
+                        </Pressable>
+                    );
+                })}
+            </View>
+
+            <FlatList
+                style={styles.list}
+                contentContainerStyle={styles.listContent}
+                data={visibleTricks}
+                keyExtractor={(item) => item.id}
+                keyboardShouldPersistTaps="handled"
+                keyboardDismissMode="on-drag"
+                ListEmptyComponent={
+                    <Text style={{ fontSize: 18, paddingTop: 10 }}>
+                        {activeTab === "In Progress" ? "No tricks in progress" : "No landed tricks yet"}
+                    </Text>
+                }
+                renderItem={({ item }) => (
+                    <TrickItem trick={item} onToggle={toggleTrick} />
+                )}
+            />
+
+        </View>
     )
 }
 
@@ -143,13 +157,6 @@ const styles = StyleSheet.create({
         fontSize: 24,
         textAlign: "center"
     },
-    sectionHeader: {
-        fontSize: 20,
-        fontWeight: "bold",
-        paddingVertical: 8,
-        backgroundColor: "white",
-        textDecorationLine: "underline"
-    },
     list: {
         flex: 1,
         alignSelf: "stretch",
@@ -158,5 +165,31 @@ const styles = StyleSheet.create({
     listContent: {
         paddingHorizontal: 16,
         paddingBottom: 24,
+    },
+    tabs: {
+        flexDirection: "row",
+        alignSelf: "stretch",
+        marginTop: 16,
+        marginHorizontal: 16,
+        borderBottomWidth: 1,
+        borderBottomColor: "#eee",
+    },
+    tab: {
+        flex: 1,
+        paddingVertical: 10,
+        alignItems: "center",
+        borderBottomWidth: 3,
+        borderBottomColor: "transparent",
+    },
+    tabActive: {
+        borderBottomColor: "#B9F34A",
+    },
+    tabText: {
+        fontSize: 16,
+        color: "#777",
+    },
+    tabTextActive: {
+        color: "#000",
+        fontWeight: "bold",
     },
 });

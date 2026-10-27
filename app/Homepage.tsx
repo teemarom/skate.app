@@ -13,7 +13,7 @@ export default function Homepage() {
             </Text>
 
             <Text style={styles.hint}>
-                Start by adding your first trick!
+                Start by adding your first trick! Hold the checkbox to move trick to other list.
             </Text>
         </View>
     )
