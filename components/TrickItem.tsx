@@ -73,5 +73,6 @@ const styles = StyleSheet.create({
     },
     nameLanded: {
         color: "#777",
+        textDecorationLine: "line-through"
     },
 });
