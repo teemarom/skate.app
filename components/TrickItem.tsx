@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, StyleSheet, Pressable, Alert } from "react-native";
 import { Trick } from "../types/Trick";
 import * as Haptics from "expo-haptics";
 
@@ -6,12 +6,14 @@ import * as Haptics from "expo-haptics";
 type Props = {
     trick: Trick;
     onToggle: (id: string) => void;
+    onDelete: (id: string) => void;
+
 };
 
-export function TrickItem({ trick, onToggle }: Props) {
+export function TrickItem({ trick, onToggle, onDelete }: Props) {
     const landed = trick.status === "Landed";
-    
- return (
+
+    return (
         <View style={styles.item}>
 
             <View style={styles.texts}>
@@ -21,18 +23,36 @@ export function TrickItem({ trick, onToggle }: Props) {
                 <Text>{trick.description}</Text>
             </View>
             <Pressable
-                onPressIn={() =>{
-                    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
-                    }}
+                onPress={() => {
+                    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning)
+                }}
                 onLongPress={() => {
                     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
-                    onToggle(trick.id)   
+                    onToggle(trick.id)
                 }}
                 delayLongPress={500}
                 style={[styles.checkbox, landed && styles.checkboxChecked]}
                 hitSlop={10}
             >
-                {landed && <Text style={styles.checkmark}>✓</Text>}
+                {landed &&
+                    <Text style={styles.checkmark}>
+                        ✓
+                    </Text>}
+
+            </Pressable>
+            <Pressable
+                onLongPress={() => {
+                    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning)
+                    Alert.alert("Delete trick?",
+                        `${trick.trickName}\n${trick.description}`, [
+                        { text: "Cancel", style: "cancel" },
+                        { text: "Delete", style: "destructive", onPress: () => onDelete(trick.id) },
+                    ])
+                }}
+                delayLongPress={800}
+                hitSlop={10}
+            >
+                <Text style={{ fontSize: 20 }}>🗑️</Text>
             </Pressable>
         </View>
     );

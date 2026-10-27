@@ -1,19 +1,26 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 
 
 export default function Homepage() {
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Welcome to Skate.app!🛹</Text>
+            <Image
+                style={{ width: 330, height: 280 }}
+                source={{ uri: "https://cdn.pixabay.com/photo/2024/01/17/21/20/pug-8515766_640.png" }}
+            />
+            <Text style={styles.title}>Welcome to Skate.app!</Text>
 
             <Text style={styles.description}>
-               Track your skateboarding progress and keep track of the tricks
-               you're practicing and the ones you've already landed. From Map tab 
-               you can find skateparks near Helsinki area.
+                Track your skateboarding progress and keep track of the tricks
+                you're practicing and the ones you've already landed.
+            </Text>
+            <Text style={styles.description}>
+                From Map tab you can find skateparks near Helsinki area.
             </Text>
 
             <Text style={styles.hint}>
-                Start by adding your first trick! Hold the checkbox to move trick to other list.
+                Start by adding your dream trick! Once you have landed it, 
+                hold its checkbox to move it to the landed list.
             </Text>
         </View>
     )
@@ -22,11 +29,13 @@ export default function Homepage() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingHorizontal: 20,
+        paddingTop: 20,
+        paddingLeft: 10,
+        paddingRight: 10,
         backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'center',
-        
+        justifyContent: 'flex-start',
+
     }, title: {
         fontSize: 28,
         fontWeight: "bold",

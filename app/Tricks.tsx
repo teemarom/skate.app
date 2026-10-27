@@ -32,6 +32,10 @@ export function Tricks() {
         setDescription("")
     }
 
+    function deleteTrick(id: string) {
+        setTricks((prev) => prev.filter((t) => t.id !== id));
+    }
+
     function toggleTrick(id: string) {
         setTricks((prev) =>
             prev.map((t) =>
@@ -102,7 +106,7 @@ export function Tricks() {
                     </Text>
                 }
                 renderItem={({ item }) => (
-                    <TrickItem trick={item} onToggle={toggleTrick} />
+                    <TrickItem trick={item} onToggle={toggleTrick} onDelete={deleteTrick}/>
                 )}
             />
 
