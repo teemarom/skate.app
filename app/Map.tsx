@@ -1,9 +1,27 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, Text, View } from "react-native";
 import MapView, { Marker } from 'react-native-maps';
 import { skateparks } from "../components/skateparks";
+import * as Location from 'expo-location';
+import { useEffect, useState } from "react";
 
 
 export default function Map() {
+
+  const [location, setLocation] = useState<Location.LocationObject | null>(null); 
+
+  // Kysyy käyttäjältä luvan sijainnin käyttöön
+  useEffect(() => {
+    (async() => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        Alert.alert("No permission to get location")
+        return;
+      }
+      const CurrentLocation = await Location.getCurrentPositionAsync({});
+      setLocation(CurrentLocation);
+    })();
+  }, []);
+
     return (
         <View style={styles.container}>
             <MapView 
@@ -15,11 +33,22 @@ export default function Map() {
                   longitudeDelta: 0.4,
                 }}
             >
+              {location &&
+              <Marker 
+                coordinate={{
+                  latitude: location.coords.latitude,
+                  longitude: location.coords.longitude
+                }}
+                title="You are here"
+                pinColor="#0541f5"
+              />
+              }
               {skateparks.map((park) => (
                 <Marker 
                   key={park.id}
                   coordinate={{latitude: park.latitude, longitude: park.longitude}}
                   title={park.name}
+                  pinColor="#f59505"
                 />
               ))}
             </MapView>
