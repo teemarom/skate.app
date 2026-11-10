@@ -75,14 +75,14 @@ const styles = StyleSheet.create({
         borderColor: "#999",
         alignItems: "center",
         justifyContent: "center",
-        marginRight: 12,
+        marginRight: 15,
     },
     checkboxChecked: {
-        backgroundColor: "#2e9e5b",
-        borderColor: "#2e9e5b",
+        backgroundColor: "#B9F34A",
+        borderColor: "#B9F34A",
     },
     checkmark: {
-        color: "white",
+        color: "black",
         fontWeight: "bold",
     },
     texts: {

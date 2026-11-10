@@ -11,7 +11,7 @@ export function Tricks() {
     const [trickName, setTrickName] = useState(""); // tempun nimi
     const [description, setDescription] = useState(""); // tempun kuvaus
     const [tricks, setTricks] = useState<Trick[]>([]); // lista tempuille
-    const [activeTab, setActiveTab] = useState<Status>("In Progress");
+    const [activeTab, setActiveTab] = useState<Status>("In Progress"); // oletustab
 
     const tabs: Status[] = ["In Progress", "Landed"];
 
@@ -74,7 +74,7 @@ export function Tricks() {
                 </Pressable>
             </View>
 
-
+            {/*tabit*/}
             <View style={styles.tabs}>
                 {tabs.map((tab) => {
                     const count = tricks.filter((t) => t.status === tab).length;
@@ -92,7 +92,8 @@ export function Tricks() {
                     );
                 })}
             </View>
-
+            
+            {/*temput listattuna */}
             <FlatList
                 style={styles.list}
                 contentContainerStyle={styles.listContent}
@@ -102,7 +103,7 @@ export function Tricks() {
                 keyboardDismissMode="on-drag"
                 ListEmptyComponent={
                     <Text style={{ fontSize: 18, paddingTop: 10 }}>
-                        {activeTab === "In Progress" ? "No tricks in progress" : "No landed tricks yet"}
+                        {activeTab === "In Progress" ? "Add a trick you want to learn" : "No landed tricks yet"}
                     </Text>
                 }
                 renderItem={({ item }) => (
@@ -157,9 +158,10 @@ const styles = StyleSheet.create({
         width: 280,
     },
     addButtonText: {
-        color: "white",
-        fontSize: 24,
-        textAlign: "center"
+        color: "black",
+        fontSize: 22,
+        textAlign: "center",
+        fontWeight: "600" 
     },
     list: {
         flex: 1,

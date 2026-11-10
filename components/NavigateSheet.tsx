@@ -51,7 +51,7 @@ export default function NavigateSheet({ park, onClose }: Props) {
 const styles = StyleSheet.create({
     backdrop: {
         flex: 1,
-        backgroundColor: 'rgba(0,0,0,0.4)'
+        backgroundColor: 'rgba(0, 0, 0, 0.4)'
     },
     sheet: {
         backgroundColor: 'white',
@@ -67,13 +67,13 @@ const styles = StyleSheet.create({
         marginBottom: 6
     },
     button: {
-        backgroundColor: '#1d4ed8',
+        backgroundColor: '#B9F34A',
         padding: 14,
         borderRadius: 10,
         alignItems: 'center'
     },
     buttonText: {
-        color: 'white',
+        color: 'black',
         fontWeight: '600'
     },
     cancel: {

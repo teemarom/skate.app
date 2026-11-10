@@ -6,6 +6,7 @@ type Destination = {
     longitude: number;
 };
 
+// Funktiot navigointiin apple mapsilla tai google mapsilla
 export function openAppleMaps({latitude, longitude}: Destination) {
     // dirflg: d = auto, w = kävely, r = joukkoliikenne
     Linking.openURL(`http://maps.apple.com/?daddr=${latitude},${longitude}&dirflg=d`);

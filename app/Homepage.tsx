@@ -14,8 +14,9 @@ export default function Homepage() {
                 Track your skateboarding progress and keep track of the tricks
                 you're practicing and the ones you've already landed.
             </Text>
+            
             <Text style={styles.description}>
-                From Map tab you can find skateparks near Helsinki area.
+                In the Map tab, you can find skateparks in the Helsinki area and navigate to them with your maps app.
             </Text>
 
             <Text style={styles.hint}>
