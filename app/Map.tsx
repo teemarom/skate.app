@@ -3,7 +3,8 @@ import MapView, { Marker } from 'react-native-maps';
 import { skateparks } from "../components/skateparks";
 import * as Location from 'expo-location';
 import { useEffect, useState } from "react";
-import NavigateSheet, { Skatepark } from "../components/NavigateSheet";
+import NavigateSheet from "../components/NavigateSheet";
+import type { Skatepark } from '../types/skatepark';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 
@@ -26,6 +27,7 @@ export default function Map() {
     })();
   }, []);
 
+  {/*kartta*/}
   return (
     <View style={styles.container}>
       <MapView
@@ -37,7 +39,8 @@ export default function Map() {
           longitudeDelta: 0.4,
         }}
       >
-        {location &&
+
+        {location && // käyttäjän marker
           <Marker
             coordinate={{
               latitude: location.coords.latitude,
@@ -57,6 +60,7 @@ export default function Map() {
             </View>
           </Marker>
         }
+        
         {/* parkkien listaus*/}
         {skateparks.map((park) => (
           <Marker
@@ -68,7 +72,7 @@ export default function Map() {
         ))}
       </MapView>
       
-      {/*Navigointi */}
+      {/*Navigointi parkille*/}
       <NavigateSheet park={selectedPark} onClose={() => setSelectedPark(null)} />
     </View>
   )

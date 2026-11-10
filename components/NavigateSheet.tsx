@@ -1,12 +1,6 @@
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import { openAppleMaps, openGoogleMaps, hasAppleMaps } from './navigation';
-
-export type Skatepark = {
-    id: string;
-    name: string;
-    latitude: number;
-    longitude: number;
-};
+import type { Skatepark } from '../types/skatepark';
 
 type Props = {
     park: Skatepark | null;
