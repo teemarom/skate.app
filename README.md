@@ -15,6 +15,7 @@ A personal trick tracker.
 
 - Add a trick with a name and a description
 - Two lists: **In Progress** and **Landed**, each with a trick counter
+- Confirmation pop-ups for moving trick between tabs and deleting trick
 
 
 ### Map

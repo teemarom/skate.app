@@ -12,6 +12,8 @@ type Props = {
 
 export function TrickItem({ trick, onToggle, onDelete }: Props) {
     const landed = trick.status === "Landed";
+    const title = landed ? "Move back to In Progress?" : "Trick landed?";
+    const confirmText = landed ? "Move back" : "Landed";
 
     return (
         <View style={styles.item}>
@@ -22,15 +24,21 @@ export function TrickItem({ trick, onToggle, onDelete }: Props) {
                 </Text>
                 <Text>{trick.description}</Text>
             </View>
+            
             <Pressable
                 onPress={() => {
                     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning)
+                    Alert.alert(title,
+                        `${trick.trickName}\n${trick.description}`, [
+                            {text: "Cancel", style: "cancel"},
+                            {text: confirmText, onPress: () =>  {
+                                Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
+                                onToggle(trick.id)
+                            }
+                            }
+                        ]
+                    )
                 }}
-                onLongPress={() => {
-                    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
-                    onToggle(trick.id)
-                }}
-                delayLongPress={500}
                 style={[styles.checkbox, landed && styles.checkboxChecked]}
                 hitSlop={10}
             >
@@ -41,12 +49,15 @@ export function TrickItem({ trick, onToggle, onDelete }: Props) {
 
             </Pressable>
             <Pressable
-                onLongPress={() => {
+                onPress={() => {
                     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning)
                     Alert.alert("Delete trick?",
                         `${trick.trickName}\n${trick.description}`, [
                         { text: "Cancel", style: "cancel" },
-                        { text: "Delete", style: "destructive", onPress: () => onDelete(trick.id) },
+                        { text: "Delete", style: "destructive", onPress: () => {
+                            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
+                            onDelete(trick.id) }
+                        },
                     ])
                 }}
                 delayLongPress={800}

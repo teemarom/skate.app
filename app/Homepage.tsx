@@ -20,8 +20,7 @@ export default function Homepage() {
             </Text>
 
             <Text style={styles.hint}>
-                Start by adding your dream trick! Once you have landed it, 
-                hold its checkbox to move it to the landed list.
+                Start by adding your dream trick! Once you've landed it, tap its checkbox to move it to the Landed list.
             </Text>
         </View>
     )
