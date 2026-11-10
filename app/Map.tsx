@@ -3,11 +3,13 @@ import MapView, { Marker } from 'react-native-maps';
 import { skateparks } from "../components/skateparks";
 import * as Location from 'expo-location';
 import { useEffect, useState } from "react";
+import NavigateSheet, { Skatepark } from "../components/NavigateSheet";
 
 
 export default function Map() {
 
-  const [location, setLocation] = useState<Location.LocationObject | null>(null); 
+  const [location, setLocation] = useState<Location.LocationObject | null>(null);
+  const [selectedPark, setSelectedPark] = useState<Skatepark | null>(null);
 
   // Kysyy käyttäjältä luvan sijainnin käyttöön
   useEffect(() => {
@@ -47,11 +49,13 @@ export default function Map() {
                 <Marker 
                   key={park.id}
                   coordinate={{latitude: park.latitude, longitude: park.longitude}}
-                  title={park.name}
                   pinColor="#f59505"
+                  onPress={() => setSelectedPark(park)}
                 />
               ))}
             </MapView>
+
+            <NavigateSheet park={selectedPark} onClose={() => setSelectedPark(null)} />
         </View>
     )
 }
