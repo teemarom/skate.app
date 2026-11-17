@@ -13,7 +13,7 @@ A welcome screen with a short guide to the app.
 
 A personal trick tracker.
 
-- Add a trick with a name and a description
+- Add a trick with a name and details like location and obstacle
 - Two lists: **In Progress** and **Landed**, each with a trick counter
 - Confirmation pop-ups for moving trick between tabs and deleting trick
 

@@ -22,14 +22,14 @@ export function TrickItem({ trick, onToggle, onDelete }: Props) {
                 <Text style={[styles.name, landed && styles.nameLanded]}>
                     {trick.trickName}
                 </Text>
-                <Text>{trick.description}</Text>
+                <Text>{trick.details}</Text>
             </View>
             
             <Pressable
                 onPress={() => {
                     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning)
                     Alert.alert(title,
-                        `${trick.trickName}\n${trick.description}`, [
+                        `${trick.trickName}\n${trick.details}`, [
                             {text: "Cancel", style: "cancel"},
                             {text: confirmText, onPress: () =>  {
                                 Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
@@ -52,7 +52,7 @@ export function TrickItem({ trick, onToggle, onDelete }: Props) {
                 onPress={() => {
                     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning)
                     Alert.alert("Delete trick?",
-                        `${trick.trickName}\n${trick.description}`, [
+                        `${trick.trickName}\n${trick.details}`, [
                         { text: "Cancel", style: "cancel" },
                         { text: "Delete", style: "destructive", onPress: () => {
                             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)

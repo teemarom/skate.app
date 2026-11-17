@@ -13,7 +13,7 @@ const database = getDatabase(app);
 export function Tricks() {
 
     const [trickName, setTrickName] = useState(""); // tempun nimi
-    const [description, setDescription] = useState(""); // tempun kuvaus
+    const [details, setDetails] = useState(""); // tempun lisätiedot
     const [tricks, setTricks] = useState<Trick[]>([]); // lista tempuille
     const [activeTab, setActiveTab] = useState<Status>("In Progress"); // oletustab
 
@@ -27,12 +27,12 @@ export function Tricks() {
 
         push(ref(database, "tricks"), {
             trickName: trickName.trim(),
-            description,
+            details,
             status: "In Progress"
         });
 
         setTrickName("");
-        setDescription("")
+        setDetails("")
     }
 
     function deleteTrick(id: string) {
@@ -71,18 +71,18 @@ export function Tricks() {
 
             {/*User input to add trick*/}
             <View>
-                <Text style={{ fontSize: 20 }}>Add a trick:</Text>
+                <Text style={{ fontSize: 20, fontWeight:"500" }}>Trick:</Text>
                 <TextInput style={styles.inputTrick}
-                    placeholder="Trick"
+                    placeholder="Trick name (required)"
                     value={trickName}
                     onChangeText={setTrickName}
                 />
 
-                <Text style={{ fontSize: 20 }}>Add description:</Text>
-                <TextInput style={styles.inputDescription}
-                    placeholder="Description"
-                    value={description}
-                    onChangeText={setDescription}
+                <Text style={{ fontSize: 20, fontWeight:"400" }}>Details (location, obstacle):</Text>
+                <TextInput style={styles.inputDetails}
+                    placeholder="Details (optional)"
+                    value={details}
+                    onChangeText={setDetails}
                     multiline
                 />
                 <Pressable style={styles.addButton} onPress={addTrick}>
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
         height: 30,
         marginBottom: 10,
     },
-    inputDescription: {
+    inputDetails: {
         borderWidth: 1,
         borderRadius: 7,
         borderColor: "gray",

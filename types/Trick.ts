@@ -1,6 +1,6 @@
 export type Trick = {
     id: string;
     trickName: string;
-    description: string;
+    details: string;
     status: "In Progress" | "Landed"
 };
