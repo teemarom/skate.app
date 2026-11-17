@@ -1,9 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Pressable, StyleSheet, Text, TextInput, View, FlatList } from "react-native";
 import { TrickItem } from "../components/TrickItem";
 import { Trick } from "../types/Trick";
+import { app } from "../config/firebaseConfig";
+import { getDatabase, ref, push, onValue, update, remove } from "firebase/database"
 
 type Status = Trick["status"];
+
+const database = getDatabase(app);
 
 
 export function Tricks() {
@@ -21,30 +25,42 @@ export function Tricks() {
     function addTrick() {
         if (!trickName.trim()) return; // estää lisäyksen jos tyhjä nimi
 
-        const newTrick: Trick = {
-            id: Date.now().toString(), // väliaikainen id testaukseen
-            trickName,
+        push(ref(database, "tricks"), {
+            trickName: trickName.trim(),
             description,
             status: "In Progress"
-        }
-        setTricks([...tricks, newTrick]); // lisää tempun listaan
+        });
+
         setTrickName("");
         setDescription("")
     }
 
     function deleteTrick(id: string) {
-        setTricks((prev) => prev.filter((t) => t.id !== id));
+        remove(ref(database, `tricks/${id}`));
     }
 
     function toggleTrick(id: string) {
-        setTricks((prev) =>
-            prev.map((t) =>
-                t.id === id
-                    ? { ...t, status: t.status === "In Progress" ? "Landed" : "In Progress" }
-                    : t
-            )
-        );
+        const trick = tricks.find((t) => t.id === id);
+        if (!trick) return;
+
+        update(ref(database, `tricks/${id}`), {
+            status: trick.status === "In Progress" ? "Landed" : "In Progress",
+        });
     }
+
+    useEffect(() => {
+        const unsubscribe = onValue(ref(database, "tricks"), (snapshot) => {
+            const data = snapshot.val();
+            const list: Trick[] = data
+                ? Object.entries(data).map(([id, value]) => ({
+                    id,
+                    ...(value as Omit<Trick, "id">),
+                }))
+                : [];
+            setTricks(list);
+        });
+        return unsubscribe;
+    }, []);
 
     return (
         <View style={styles.container}>
