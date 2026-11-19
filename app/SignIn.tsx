@@ -34,7 +34,7 @@ export default function SignIn({ onSwitch }: Props) {
         keyboardType="email-address"
       />
       <TextInput style={styles.input}
-        placeholder="Password"
+        placeholder="Password (atleast 6 characters)"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
@@ -47,9 +47,6 @@ export default function SignIn({ onSwitch }: Props) {
       </Pressable>
     </View>
   )
-
-
-
 
   function friendlyError(code: string) {
     switch (code) {

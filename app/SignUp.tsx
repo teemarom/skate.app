@@ -44,7 +44,7 @@ export default function SignUp({ onSwitch }: Props) {
             />
             <TextInput
                 style={styles.input}
-                placeholder="Password"
+                placeholder="Password (atleast 6 characters)"
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry

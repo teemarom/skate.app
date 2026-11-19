@@ -2,30 +2,30 @@ import { useEffect, useState } from "react";
 import { Pressable, StyleSheet, Text, TextInput, View, FlatList } from "react-native";
 import { TrickItem } from "../components/TrickItem";
 import { Trick } from "../types/Trick";
-import { app } from "../config/firebaseConfig";
-import { getDatabase, ref, push, onValue, update, remove } from "firebase/database"
+import { auth, database } from "../config/firebaseConfig";
+import { ref, push, onValue, update, remove } from "firebase/database"
 
 type Status = Trick["status"];
 
-const database = getDatabase(app);
-
 
 export function Tricks() {
-
+    
     const [trickName, setTrickName] = useState(""); // tempun nimi
     const [details, setDetails] = useState(""); // tempun lisätiedot
     const [tricks, setTricks] = useState<Trick[]>([]); // lista tempuille
     const [activeTab, setActiveTab] = useState<Status>("In Progress"); // oletustab
-
+    
+    const uid = auth.currentUser?.uid;
+    
     const tabs: Status[] = ["In Progress", "Landed"];
 
     const visibleTricks = tricks.filter((t) => t.status === activeTab);
 
     // tempun lisäys
     function addTrick() {
-        if (!trickName.trim()) return; // estää lisäyksen jos tyhjä nimi
+        if (!trickName.trim() || !uid) return; // estää lisäyksen jos tyhjä nimi
 
-        push(ref(database, "tricks"), {
+        push(ref(database, `users/${uid}/tricks`), {
             trickName: trickName.trim(),
             details,
             status: "In Progress"
@@ -37,22 +37,26 @@ export function Tricks() {
 
     // tempun poisto
     function deleteTrick(id: string) {
-        remove(ref(database, `tricks/${id}`));
+        if (!uid) return;
+        remove(ref(database, `users/${uid}/tricks/${id}`));
     }
 
     // tempun siirto listojen välillä
     function toggleTrick(id: string) {
+        if (!uid) return;
         const trick = tricks.find((t) => t.id === id);
         if (!trick) return;
 
-        update(ref(database, `tricks/${id}`), {
+        update(ref(database, `users/${uid}/tricks/${id}`), {
             status: trick.status === "In Progress" ? "Landed" : "In Progress",
         });
     }
 
     // hae temput tietokannasta
     useEffect(() => {
-        const unsubscribe = onValue(ref(database, "tricks"), (snapshot) => {
+        if (!uid) return;
+
+        const unsubscribe = onValue(ref(database, `users/${uid}/tricks`), (snapshot) => {
             const data = snapshot.val();
             const list: Trick[] = data
                 ? Object.entries(data).map(([id, value]) => ({
@@ -63,7 +67,7 @@ export function Tricks() {
             setTricks(list);
         });
         return unsubscribe;
-    }, []);
+    }, [uid]);
 
     return (
         <View style={styles.container}>
