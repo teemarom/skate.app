@@ -27,23 +27,30 @@ export default function SignIn({ onSwitch }: Props) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Sign in</Text>
+
+      {/*email*/}
       <TextInput style={styles.input}
         placeholder="Email"
         value={email}
         onChangeText={setEmail}
         keyboardType="email-address"
       />
+      {/*salasana */}
       <TextInput style={styles.input}
-        placeholder="Password (atleast 6 characters)"
+        placeholder="Password"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
       />
+      {/*sign in painike*/}
       <Pressable style={styles.button} onPress={handleSignIn}>
         <Text style={styles.buttonText}>Sign in</Text>
       </Pressable>
+
       <Pressable onPress={onSwitch}>
-        <Text style={styles.link}>No account? Create account here</Text>
+        <Text style={styles.link}>No account?{" "}
+          <Text style={styles.linkHighlight}>Create account here</Text>
+        </Text>
       </Pressable>
     </View>
   )
@@ -74,7 +81,8 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: "bold",
-    marginBottom: 12
+    marginBottom: 12,
+    textAlign: "center"
   },
   input: {
     borderWidth: 1,
@@ -96,5 +104,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#555",
     marginTop: 8
+  },
+  linkHighlight: {
+    color: "#007AFF",
+    textDecorationLine: "underline"
   },
 });

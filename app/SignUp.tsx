@@ -11,6 +11,8 @@ type Props = {
 export default function SignUp({ onSwitch }: Props) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [passwordAgain, setPasswordAgain] = useState("")
+    const passwordMatch = password === passwordAgain; // salasanojen vertailu
 
     async function handleSignUp() {
         const trimmedEmail = email.trim();
@@ -35,6 +37,7 @@ export default function SignUp({ onSwitch }: Props) {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Create account</Text>
+            {/*email*/}
             <TextInput
                 style={styles.input}
                 placeholder="Email"
@@ -42,6 +45,7 @@ export default function SignUp({ onSwitch }: Props) {
                 onChangeText={setEmail}
                 keyboardType="email-address"
             />
+            {/*salasana */}
             <TextInput
                 style={styles.input}
                 placeholder="Password (atleast 6 characters)"
@@ -49,11 +53,34 @@ export default function SignUp({ onSwitch }: Props) {
                 onChangeText={setPassword}
                 secureTextEntry
             />
-            <Pressable style={styles.button} onPress={handleSignUp} >
+            {/*salasana uudelleen */}
+            <TextInput
+                style={styles.input}
+                placeholder="Re-type password"
+                value={passwordAgain}
+                onChangeText={setPasswordAgain}
+                secureTextEntry
+            />
+
+            {/*error msg */}
+            {passwordAgain.length > 0 && !passwordMatch && (
+                <Text style={styles.error}>Passwords do not match</Text>
+            )}
+
+            {/*register painike */}
+            <Pressable
+                style={[styles.button, !passwordMatch && styles.buttonDisabled]}
+                onPress={handleSignUp}
+                disabled={!passwordMatch}
+            >
                 <Text style={styles.buttonText}>Register</Text>
             </Pressable>
+
             <Pressable onPress={onSwitch}>
-                <Text style={styles.link}>Already have an account? Sign in</Text>
+                <Text style={styles.link}>
+                    Already have an account?{" "}
+                    <Text style={styles.linkHighlight}>Sign in</Text>
+                </Text>
             </Pressable>
         </View>
     )
@@ -73,36 +100,49 @@ export default function SignUp({ onSwitch }: Props) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 24,
-    justifyContent: "center",
-    gap: 12
-},
-  title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    marginBottom: 12
-},
-  input: {
-    borderWidth: 1,
-    borderColor: "gray",
-    borderRadius: 7,
-    padding: 10
-},
-  button: {
-    backgroundColor: "#B9F34A",
-    padding: 14,
-    borderRadius: 10,
-    alignItems: "center"
-},
-  buttonText: {
-    color: "black",
-    fontWeight: "600"
-},
-  link: {
-    textAlign: "center",
-    color: "#555",
-    marginTop: 8
-},
+    container: {
+        flex: 1,
+        padding: 24,
+        justifyContent: "center",
+        gap: 12
+    },
+    title: {
+        fontSize: 28,
+        fontWeight: "bold",
+        marginBottom: 12,
+        textAlign: "center"
+    },
+    input: {
+        borderWidth: 1,
+        borderColor: "gray",
+        borderRadius: 7,
+        padding: 10
+    },
+    button: {
+        backgroundColor: "#B9F34A",
+        padding: 14,
+        borderRadius: 10,
+        alignItems: "center"
+    },
+    buttonDisabled: {
+        opacity: 0.4,
+        backgroundColor: "red"
+    },
+    buttonText: {
+        color: "black",
+        fontWeight: "600"
+    },
+    link: {
+        textAlign: "center",
+        color: "#555",
+        marginTop: 8
+    },
+    linkHighlight: {
+        color:"#007AFF",
+        textDecorationLine: "underline"
+    },
+    error: {
+        color: "red",
+        fontSize: 13
+    },
 });
