@@ -1,6 +1,6 @@
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 import { openAppleMaps, openGoogleMaps, hasAppleMaps } from './navigation';
-import type { Skatepark } from '../types/skatepark';
+import type { Skatepark } from '../types/Skatepark';
 
 type Props = {
     park: Skatepark | null;
@@ -28,6 +28,7 @@ export default function NavigateSheet({ park, onClose }: Props) {
                     </Pressable>
                 )}
 
+                {/*Google Maps */}
                 <Pressable style={styles.button} onPress={() => go(openGoogleMaps)}>
                         <Text style={styles.buttonText}>Navigate with Google Maps</Text>
                 </Pressable>

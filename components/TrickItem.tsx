@@ -25,6 +25,7 @@ export function TrickItem({ trick, onToggle, onDelete }: Props) {
                 <Text>{trick.details}</Text>
             </View>
             
+            {/*tempun siirto vahvistus*/}
             <Pressable
                 onPress={() => {
                     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning)
@@ -48,6 +49,8 @@ export function TrickItem({ trick, onToggle, onDelete }: Props) {
                     </Text>}
 
             </Pressable>
+
+            {/*tempun poisto vahvistus*/}
             <Pressable
                 onPress={() => {
                     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning)

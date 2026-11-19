@@ -21,7 +21,7 @@ export function Tricks() {
 
     const visibleTricks = tricks.filter((t) => t.status === activeTab);
 
-
+    // tempun lisäys
     function addTrick() {
         if (!trickName.trim()) return; // estää lisäyksen jos tyhjä nimi
 
@@ -35,10 +35,12 @@ export function Tricks() {
         setDetails("")
     }
 
+    // tempun poisto
     function deleteTrick(id: string) {
         remove(ref(database, `tricks/${id}`));
     }
 
+    // tempun siirto listojen välillä
     function toggleTrick(id: string) {
         const trick = tricks.find((t) => t.id === id);
         if (!trick) return;
@@ -48,6 +50,7 @@ export function Tricks() {
         });
     }
 
+    // hae temput tietokannasta
     useEffect(() => {
         const unsubscribe = onValue(ref(database, "tricks"), (snapshot) => {
             const data = snapshot.val();
