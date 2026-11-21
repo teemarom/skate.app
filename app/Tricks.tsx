@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Pressable, StyleSheet, Text, TextInput, View, FlatList } from "react-native";
+import { Pressable, StyleSheet, Text, TextInput, View, FlatList, Image } from "react-native";
 import { TrickItem } from "../components/TrickItem";
 import { Trick } from "../types/Trick";
 import { auth, database } from "../config/firebaseConfig";
@@ -9,14 +9,14 @@ type Status = Trick["status"];
 
 
 export function Tricks() {
-    
+
     const [trickName, setTrickName] = useState(""); // tempun nimi
     const [details, setDetails] = useState(""); // tempun lisätiedot
     const [tricks, setTricks] = useState<Trick[]>([]); // lista tempuille
     const [activeTab, setActiveTab] = useState<Status>("In Progress"); // oletustab
-    
+
     const uid = auth.currentUser?.uid;
-    
+
     const tabs: Status[] = ["In Progress", "Landed"];
 
     const visibleTricks = tricks.filter((t) => t.status === activeTab);
@@ -73,19 +73,19 @@ export function Tricks() {
         <View style={styles.container}>
 
             <View style={styles.header}>
-                <Text style={styles.logo}>SKATETRICKS</Text>
+                <Text style={styles.logo}>Your Tricks</Text>
             </View>
 
             {/*User input to add trick*/}
             <View>
-                <Text style={{ fontSize: 20, fontWeight:"500" }}>Trick:</Text>
+                <Text style={{ fontSize: 20, fontWeight: "500" }}>Trick:</Text>
                 <TextInput style={styles.inputTrick}
                     placeholder="Trick name (required)"
                     value={trickName}
                     onChangeText={setTrickName}
                 />
 
-                <Text style={{ fontSize: 20, fontWeight:"400" }}>Details (location, obstacle):</Text>
+                <Text style={{ fontSize: 20, fontWeight: "400" }}>Details (location, obstacle):</Text>
                 <TextInput style={styles.inputDetails}
                     placeholder="Details (optional)"
                     value={details}
@@ -93,7 +93,7 @@ export function Tricks() {
                     multiline
                 />
                 <Pressable style={styles.addButton} onPress={addTrick}>
-                    <Text style={styles.addButtonText}>ADD TRICK</Text>
+                    <Text style={styles.addButtonText}>Add Trick</Text>
                 </Pressable>
             </View>
 
@@ -115,7 +115,7 @@ export function Tricks() {
                     );
                 })}
             </View>
-            
+
             {/*temput listattuna */}
             <FlatList
                 style={styles.list}
@@ -130,7 +130,7 @@ export function Tricks() {
                     </Text>
                 }
                 renderItem={({ item }) => (
-                    <TrickItem trick={item} onToggle={toggleTrick} onDelete={deleteTrick}/>
+                    <TrickItem trick={item} onToggle={toggleTrick} onDelete={deleteTrick} />
                 )}
             />
 
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         backgroundColor: "#B9F34A",
         borderWidth: 1,
-        borderRadius: 7,
+        borderRadius: 10,
         height: 40,
         width: 280,
     },
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
         color: "black",
         fontSize: 22,
         textAlign: "center",
-        fontWeight: "600" 
+        fontWeight: "600"
     },
     list: {
         flex: 1,
@@ -221,4 +221,5 @@ const styles = StyleSheet.create({
         color: "#000",
         fontWeight: "bold",
     },
+
 });

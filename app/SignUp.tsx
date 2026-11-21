@@ -1,7 +1,7 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../config/firebaseConfig";
 import { useState } from "react";
-import { Alert, Image, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, Image, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 
 
 type Props = {
@@ -35,60 +35,69 @@ export default function SignUp({ onSwitch }: Props) {
     }
 
     return (
-        <View style={styles.container}>
-
-            <Image
-                style={styles.image}
-                source={require("../assets/signup.png")}
-            />
-
-            <Text style={styles.title}>Create account</Text>
-            {/*email*/}
-            <TextInput
-                style={styles.input}
-                placeholder="Email"
-                value={email}
-                onChangeText={setEmail}
-                keyboardType="email-address"
-            />
-            {/*salasana */}
-            <TextInput
-                style={styles.input}
-                placeholder="Password (atleast 6 characters)"
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry
-            />
-            {/*salasana uudelleen */}
-            <TextInput
-                style={styles.input}
-                placeholder="Re-type password"
-                value={passwordAgain}
-                onChangeText={setPasswordAgain}
-                secureTextEntry
-            />
-
-            {/*error msg */}
-            {passwordAgain.length > 0 && !passwordMatch && (
-                <Text style={styles.error}>Passwords do not match</Text>
-            )}
-
-            {/*register painike */}
-            <Pressable
-                style={[styles.button, !passwordMatch && styles.buttonDisabled]}
-                onPress={handleSignUp}
-                disabled={!passwordMatch}
+        <KeyboardAvoidingView
+            style={styles.flex}
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+            <ScrollView 
+                contentContainerStyle={styles.container}
+                keyboardShouldPersistTaps="handled"
             >
-                <Text style={styles.buttonText}>Register</Text>
-            </Pressable>
 
-            <Pressable onPress={onSwitch}>
-                <Text style={styles.link}>
-                    Already have an account?{" "}
-                    <Text style={styles.linkHighlight}>Sign in</Text>
-                </Text>
-            </Pressable>
-        </View>
+                <Image
+                    style={styles.image}
+                    source={require("../assets/signup.png")}
+                />
+
+                <Text style={styles.title}>Create account</Text>
+                {/*email*/}
+                <TextInput
+                    style={styles.input}
+                    placeholder="Email"
+                    value={email}
+                    onChangeText={setEmail}
+                    keyboardType="email-address"
+                />
+                {/*salasana */}
+                <TextInput
+                    style={styles.input}
+                    placeholder="Password (atleast 6 characters)"
+                    value={password}
+                    onChangeText={setPassword}
+                    secureTextEntry
+                />
+                {/*salasana uudelleen */}
+                <TextInput
+                    style={styles.input}
+                    placeholder="Re-type password"
+                    value={passwordAgain}
+                    onChangeText={setPasswordAgain}
+                    secureTextEntry
+                />
+
+                {/*error msg */}
+                {passwordAgain.length > 0 && !passwordMatch && (
+                    <Text style={styles.error}>Passwords do not match</Text>
+                )}
+
+                {/*register painike */}
+                <Pressable
+                    style={[styles.button, !passwordMatch && styles.buttonDisabled]}
+                    onPress={handleSignUp}
+                    disabled={!passwordMatch}
+                >
+                    <Text style={styles.buttonText}>Register</Text>
+                </Pressable>
+
+                <Pressable onPress={onSwitch}>
+                    <Text style={styles.link}>
+                        Already have an account?{" "}
+                        <Text style={styles.linkHighlight}>Sign in</Text>
+                    </Text>
+                </Pressable>
+
+            </ScrollView>
+        </KeyboardAvoidingView>
     )
 
     function friendlyError(code: string) {
@@ -106,6 +115,10 @@ export default function SignUp({ onSwitch }: Props) {
 }
 
 const styles = StyleSheet.create({
+    flex: {
+        flex: 1,
+        backgroundColor: "#fff",
+    },
     container: {
         flex: 1,
         padding: 24,
@@ -117,7 +130,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         marginBottom: 12,
         textAlign: "center",
-        textDecorationLine:"underline"
+        textDecorationLine: "underline"
     },
     input: {
         borderWidth: 1,
@@ -145,7 +158,7 @@ const styles = StyleSheet.create({
         marginTop: 8
     },
     linkHighlight: {
-        color:"#007AFF",
+        color: "#007AFF",
         textDecorationLine: "underline"
     },
     error: {

@@ -22,7 +22,7 @@ export default function Profile() {
             <Text style={styles.email}>{email}</Text>
 
             <Pressable style={styles.button} onPress={handleSignOut}>
-                <Text style={styles.buttonText}>Sign out</Text>
+                <Text style={styles.buttonText}>Sign Out</Text>
             </Pressable>
         </View>
     );
@@ -54,13 +54,16 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "#B9F34A",
-    padding: 14,
+    justifyContent: "center",
     borderRadius: 10,
     alignItems: "center",
+    height: 40,
     width: 200,
+    borderWidth: 1,
   },
   buttonText: {
     color: "black",
-    fontWeight: "600"
+    fontWeight: "600",
+    fontSize: 22,
   },
 });

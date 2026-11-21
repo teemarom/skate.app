@@ -1,6 +1,6 @@
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
-import { Alert, Image, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, Image, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { auth } from "../config/firebaseConfig";
 
 type Props = {
@@ -25,40 +25,49 @@ export default function SignIn({ onSwitch }: Props) {
   }
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      style={styles.flex}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <ScrollView
+        contentContainerStyle={styles.container}
+        keyboardShouldPersistTaps="handled"
+      >
 
-      <Image
-        style={styles.image}
-        source={require("../assets/signin.png")}
-      />
+        <Image
+          style={styles.image}
+          source={require("../assets/signin.png")}
+        />
 
-      <Text style={styles.title}>Sign in</Text>
+        <Text style={styles.title}>Sign in</Text>
 
-      {/*email*/}
-      <TextInput style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-      />
-      {/*salasana */}
-      <TextInput style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-      {/*sign in painike*/}
-      <Pressable style={styles.button} onPress={handleSignIn}>
-        <Text style={styles.buttonText}>Sign in</Text>
-      </Pressable>
+        {/*email*/}
+        <TextInput style={styles.input}
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+        />
+        {/*salasana */}
+        <TextInput style={styles.input}
+          placeholder="Password"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+        />
+        {/*sign in painike*/}
+        <Pressable style={styles.button} onPress={handleSignIn}>
+          <Text style={styles.buttonText}>Sign in</Text>
+        </Pressable>
 
-      <Pressable onPress={onSwitch}>
-        <Text style={styles.link}>No account?{" "}
-          <Text style={styles.linkHighlight}>Create account here</Text>
-        </Text>
-      </Pressable>
-    </View>
+        <Pressable onPress={onSwitch}>
+          <Text style={styles.link}>No account?{" "}
+            <Text style={styles.linkHighlight}>Create account here</Text>
+          </Text>
+        </Pressable>
+        
+      </ScrollView>
+    </KeyboardAvoidingView>
   )
 
   function friendlyError(code: string) {
@@ -78,6 +87,10 @@ export default function SignIn({ onSwitch }: Props) {
 }
 
 const styles = StyleSheet.create({
+  flex: {
+    flex: 1,
+    backgroundColor: "#fff",
+  },
   container: {
     flex: 1,
     padding: 24,
@@ -89,7 +102,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 12,
     textAlign: "center",
-    textDecorationLine:"underline"
+    textDecorationLine: "underline"
   },
   input: {
     borderWidth: 1,
