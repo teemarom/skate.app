@@ -1,10 +1,10 @@
-import { Alert, StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, View } from "react-native";
 import MapView, { Marker } from 'react-native-maps';
 import { skateparks } from "../components/skateparks";
 import * as Location from 'expo-location';
 import { useEffect, useState } from "react";
 import NavigateSheet from "../components/NavigateSheet";
-import type { Skatepark } from '../types/skatepark';
+import type { Skatepark } from '../types/Skatepark';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 

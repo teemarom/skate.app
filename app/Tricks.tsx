@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Pressable, StyleSheet, Text, TextInput, View, FlatList, Image } from "react-native";
+import { Pressable, StyleSheet, Text, TextInput, View, FlatList } from "react-native";
 import { TrickItem } from "../components/TrickItem";
 import { Trick } from "../types/Trick";
 import { auth, database } from "../config/firebaseConfig";

@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import Map from "./Map"
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -7,7 +7,6 @@ import Homepage from './Homepage';
 import { Tricks } from './Tricks';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { FontAwesome } from '@expo/vector-icons';
-import SignIn from './LogIn';
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { auth } from '../config/firebaseConfig';
@@ -26,15 +25,8 @@ export default function App() {
       setUser(currentUser);
       setLoading(false);
     });
+    return unsubscribe;
   }, [])
-
-  if (loading) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size="large" />
-      </View>
-    )
-  }
 
   return (
     <NavigationContainer>
