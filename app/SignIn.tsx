@@ -1,6 +1,6 @@
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
-import { Alert, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, Image, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { auth } from "../config/firebaseConfig";
 
 type Props = {
@@ -26,6 +26,12 @@ export default function SignIn({ onSwitch }: Props) {
 
   return (
     <View style={styles.container}>
+
+      <Image
+        style={styles.image}
+        source={require("../assets/signin.png")}
+      />
+
       <Text style={styles.title}>Sign in</Text>
 
       {/*email*/}
@@ -82,7 +88,8 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: "bold",
     marginBottom: 12,
-    textAlign: "center"
+    textAlign: "center",
+    textDecorationLine:"underline"
   },
   input: {
     borderWidth: 1,
@@ -109,4 +116,9 @@ const styles = StyleSheet.create({
     color: "#007AFF",
     textDecorationLine: "underline"
   },
+  image: {
+    width: 250,
+    height: 250,
+    alignSelf: "center",
+  }
 });

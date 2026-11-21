@@ -5,8 +5,8 @@ export default function Homepage() {
     return (
         <View style={styles.container}>
             <Image
-                style={{ width: 330, height: 280 }}
-                source={{ uri: "https://cdn.pixabay.com/photo/2024/01/17/21/20/pug-8515766_640.png" }}
+                style={styles.image}
+                source={require("../assets/homepage.png")}
             />
             <Text style={styles.title}>Welcome to Skate.app!</Text>
 
@@ -14,7 +14,7 @@ export default function Homepage() {
                 Track your skateboarding progress and keep track of the tricks
                 you're practicing and the ones you've already landed.
             </Text>
-            
+
             <Text style={styles.description}>
                 In the Map tab, you can find skateparks in the Helsinki area and navigate to them with your maps app.
             </Text>
@@ -55,4 +55,9 @@ const styles = StyleSheet.create({
         textAlign: "center",
         color: "#222",
     },
+    image: {
+        width: 250,
+        height: 250,
+        alignSelf: "center",
+    }
 });

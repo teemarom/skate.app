@@ -1,7 +1,7 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../config/firebaseConfig";
 import { useState } from "react";
-import { Alert, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { Alert, Image, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 
 
 type Props = {
@@ -36,6 +36,12 @@ export default function SignUp({ onSwitch }: Props) {
 
     return (
         <View style={styles.container}>
+
+            <Image
+                style={styles.image}
+                source={require("../assets/signup.png")}
+            />
+
             <Text style={styles.title}>Create account</Text>
             {/*email*/}
             <TextInput
@@ -110,7 +116,8 @@ const styles = StyleSheet.create({
         fontSize: 28,
         fontWeight: "bold",
         marginBottom: 12,
-        textAlign: "center"
+        textAlign: "center",
+        textDecorationLine:"underline"
     },
     input: {
         borderWidth: 1,
@@ -145,4 +152,9 @@ const styles = StyleSheet.create({
         color: "red",
         fontSize: 13
     },
+    image: {
+        width: 250,
+        height: 250,
+        alignSelf: "center",
+    }
 });
