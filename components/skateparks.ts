@@ -1,6 +1,6 @@
 export const skateparks = [
   // HELSINKI 
-  { id: '1', name: 'Kontulan skeittipuisto', latitude: 60.23654574200163, longitude: 25.086151580271526 },
+  { id: '1', name: 'Kontulan skeittihalli', latitude: 60.23654574200163, longitude: 25.086151580271526 },
   { id: '2', name: 'Pikku-Huopalahden skeittipuisto', latitude: 60.203231385864186, longitude: 24.890574298946248 }, 
   { id: '3', name: 'Suvilahden skeittiparkki', latitude: 60.18581214834159, longitude: 24.97447236747335 },
   { id: '4', name: 'Eläintarhan skeittipuisto (Micropolis)', latitude: 60.19191205057924, longitude: 24.92858893704691 }, 

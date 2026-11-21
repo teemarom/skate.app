@@ -7,7 +7,7 @@ import Homepage from './Homepage';
 import { Tricks } from './Tricks';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { FontAwesome } from '@expo/vector-icons';
-import SignIn from './SignIn';
+import SignIn from './LogIn';
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { auth } from '../config/firebaseConfig';

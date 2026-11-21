@@ -7,7 +7,7 @@ type Props = {
   onSwitch: () => void
 };
 
-export default function SignIn({ onSwitch }: Props) {
+export default function LogIn({ onSwitch }: Props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -65,7 +65,7 @@ export default function SignIn({ onSwitch }: Props) {
             <Text style={styles.linkHighlight}>Create account here</Text>
           </Text>
         </Pressable>
-        
+
       </ScrollView>
     </KeyboardAvoidingView>
   )
@@ -114,11 +114,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#B9F34A",
     padding: 14,
     borderRadius: 10,
-    alignItems: "center"
+    alignItems: "center",
+    borderWidth: 1
   },
   buttonText: {
     color: "black",
-    fontWeight: "600"
+    fontWeight: "600",
+    fontSize: 16,
   },
   link: {
     textAlign: "center",

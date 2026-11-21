@@ -8,7 +8,7 @@ type Props = {
     onSwitch: () => void
 };
 
-export default function SignUp({ onSwitch }: Props) {
+export default function CreateAccount({ onSwitch }: Props) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [passwordAgain, setPasswordAgain] = useState("")
@@ -40,7 +40,7 @@ export default function SignUp({ onSwitch }: Props) {
             behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
             <ScrollView 
-                contentContainerStyle={styles.container}
+                contentContainerStyle ={styles.container}
                 keyboardShouldPersistTaps="handled"
             >
 
@@ -142,7 +142,8 @@ const styles = StyleSheet.create({
         backgroundColor: "#B9F34A",
         padding: 14,
         borderRadius: 10,
-        alignItems: "center"
+        alignItems: "center",
+        borderWidth: 1,
     },
     buttonDisabled: {
         opacity: 0.4,
@@ -150,7 +151,8 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: "black",
-        fontWeight: "600"
+        fontWeight: "600",
+        fontSize: 16,
     },
     link: {
         textAlign: "center",
